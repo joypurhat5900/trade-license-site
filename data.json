@@ -1,0 +1,26 @@
+[
+  {
+    "licenseNo": "007640",
+    "licenseId": "03-023-007640",
+    "businessName": "কিবরিয়া ভ্যারাইটি স্টোর",
+    "businessType": "ভ্যারাইটি স্টোর ছোট",
+    "ward": "03",
+    "address": "হোল্ডিং নং: ০০৩, পিডিবির সামনে, খনজনপুর রোড",
+    "issueDate": "2023-07-06",
+    "renewYear": "2026-2027",
+    "renewDate": "2026-10-17",
+    "expiryDate": "2027-06-30",
+    "fees": {
+      "licenseFee": 500,
+      "signboardFee": 0,
+      "miscFee": 0,
+      "arrear": 0,
+      "currentSurcharge": 25,
+      "surcharge": 0,
+      "vat": 75,
+      "vatArrear": 0,
+      "incomeTax": 1000,
+      "incomeTaxArrear": 0
+    }
+  }
+]

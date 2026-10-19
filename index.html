@@ -3,74 +3,254 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ট্রেড লাইসেন্স তথ্য</title>
+<title>ট্রেড লাইসেন্স রেকর্ড</title>
 <style>
-  :root{--bg:#f4f7fa;--card:#fff;--text:#1d2733;--muted:#5d6b7a;--line:#e1e8ef;--head:#e6f1f7;--accent:#0b6b8a;color-scheme:light}
-  @media (prefers-color-scheme:dark){:root{--bg:#10161c;--card:#18212a;--text:#e8eef3;--muted:#9aa9b8;--line:#2a3541;--head:#1f3140;--accent:#5cc0e0;color-scheme:dark}}
+  :root{--bg:#f4f7fa;--card:#fff;--text:#1d2733;--muted:#5d6b7a;--line:#e1e8ef;--head:#e6f1f7;--accent:#0b6b8a;--ok:#1a7f4b;--bad:#c0392b;color-scheme:light}
+  @media (prefers-color-scheme:dark){:root{--bg:#10161c;--card:#18212a;--text:#e8eef3;--muted:#9aa9b8;--line:#2a3541;--head:#1f3140;--accent:#5cc0e0;--ok:#4cd08a;--bad:#ff7b6b;color-scheme:dark}}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans Bengali","Kalpurush","SolaimanLipi",system-ui,sans-serif;line-height:1.6}
   .wrap{max-width:760px;margin:0 auto;padding:16px}
-  header{text-align:center;padding:12px 0 4px}
-  h1{font-size:1.35rem;margin:0 0 4px;color:var(--accent)}
-  .note{display:inline-block;font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:2px 12px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:16px 0;overflow:hidden}
+  header{text-align:center;padding:8px 0}
+  h1{font-size:1.3rem;margin:0 0 4px;color:var(--accent)}
+  .note{display:inline-block;font-size:.78rem;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:2px 12px}
+  .tabs{display:flex;gap:8px;margin:14px 0}
+  .tabs button{flex:1}
+  button,input,select,textarea{font:inherit;color:inherit}
+  button{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
+  button.primary,.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.danger{color:var(--bad)}
+  input,select{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden}
   .card h2{margin:0;padding:10px 14px;font-size:1rem;background:var(--head);text-align:center}
+  .pad{padding:12px 14px}
   table{width:100%;border-collapse:collapse}
-  td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+  td{padding:9px 14px;border-top:1px solid var(--line);vertical-align:top}
   td:first-child{color:var(--muted);width:42%}
   td.num{text-align:right;font-variant-numeric:tabular-nums}
   tr.total td{font-weight:700;background:var(--head)}
-  footer{text-align:center;font-size:.78rem;color:var(--muted);padding:8px 0 24px}
+  .row{display:flex;gap:8px}
+  .row>*{flex:1}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+  @media(max-width:520px){.grid{grid-template-columns:1fr}}
+  .status{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.8rem;border:1px solid currentColor}
+  .ok{color:var(--ok)}.bad{color:var(--bad)}
+  .msg{padding:12px 14px;text-align:center;color:var(--muted)}
+  .hidden{display:none}
+  footer{text-align:center;font-size:.76rem;color:var(--muted);padding:8px 0 24px}
+  .tag{font-size:.7rem;color:var(--muted)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>ট্রেড লাইসেন্স তথ্য</h1>
-    <span class="note">অনানুষ্ঠানিক কপি — সরকারি যাচাইকরণ পেজ নয়</span>
+    <h1>ট্রেড লাইসেন্স রেকর্ড</h1>
+    <span class="note">অনানুষ্ঠানিক রেকর্ড — সরকারি যাচাইকরণ নয়</span>
   </header>
 
-  <section class="card">
-    <h2>লাইসেন্স তথ্য</h2>
-    <table>
-      <tr><td>লাইসেন্স নং</td><td>007640</td></tr>
-      <tr><td>লাইসেন্স আইডি</td><td>03-023-007640</td></tr>
-      <tr><td>ইস্যুর তারিখ</td><td>06/07/2023</td></tr>
-      <tr><td>নবায়ন বছর</td><td>2026-2027</td></tr>
-      <tr><td>নবায়নের তারিখ</td><td>17/10/2026</td></tr>
-      <tr><td>মেয়াদ শেষ</td><td>30/06/2027</td></tr>
-    </table>
+  <div class="tabs">
+    <button id="tabSearch" class="on">🔍 সার্চ</button>
+    <button id="tabAdd">➕ নতুন যোগ</button>
+    <button id="tabList">📋 সব রেকর্ড</button>
+  </div>
+
+  <!-- SEARCH -->
+  <section id="viewSearch">
+    <div class="card"><div class="pad">
+      <label for="q">লাইসেন্স নম্বর বা লাইসেন্স আইডি</label>
+      <div class="row">
+        <input id="q" inputmode="numeric" placeholder="যেমন: 007640 বা 03-023-007640" autocomplete="off">
+        <button class="primary" id="go" style="flex:0 0 90px">খুঁজুন</button>
+      </div>
+    </div></div>
+    <div id="result"></div>
   </section>
 
-  <section class="card">
-    <h2>প্রতিষ্ঠানের তথ্য</h2>
-    <table>
-      <tr><td>প্রতিষ্ঠানের নাম</td><td>কিবরিয়া ভ্যারাইটি স্টোর</td></tr>
-      <tr><td>ব্যবসার ধরন</td><td>ভ্যারাইটি স্টোর ছোট</td></tr>
-      <tr><td>ওয়ার্ড</td><td>০৩</td></tr>
-      <tr><td>মহল্লা / রাস্তা</td><td>খনজনপুর রোড</td></tr>
-      <tr><td>ঠিকানা</td><td>হোল্ডিং নং: ০০৩, পিডিবির সামনে, খনজনপুর রোড</td></tr>
-    </table>
+  <!-- ADD -->
+  <section id="viewAdd" class="hidden">
+    <form id="form" class="card" autocomplete="off">
+      <h2 id="formTitle">নতুন রেকর্ড যোগ করুন</h2>
+      <div class="pad">
+        <div class="grid">
+          <div><label>লাইসেন্স নং *</label><input name="licenseNo" required></div>
+          <div><label>লাইসেন্স আইডি</label><input name="licenseId"></div>
+          <div><label>প্রতিষ্ঠানের নাম *</label><input name="businessName" required></div>
+          <div><label>ব্যবসার ধরন</label><input name="businessType"></div>
+          <div><label>ওয়ার্ড</label><input name="ward"></div>
+          <div><label>নবায়ন বছর</label><input name="renewYear" placeholder="2026-2027"></div>
+          <div><label>ইস্যুর তারিখ</label><input type="date" name="issueDate"></div>
+          <div><label>নবায়নের তারিখ</label><input type="date" name="renewDate"></div>
+          <div><label>মেয়াদ শেষ</label><input type="date" name="expiryDate"></div>
+          <div><label>ঠিকানা</label><input name="address"></div>
+        </div>
+        <label style="margin-top:16px;font-weight:700;color:var(--text)">ফি (টাকা)</label>
+        <div class="grid" id="feeInputs"></div>
+        <div class="row" style="margin-top:16px">
+          <button type="submit" class="primary">সংরক্ষণ করুন</button>
+          <button type="button" id="cancelEdit">বাতিল</button>
+        </div>
+      </div>
+    </form>
+    <p class="msg">সংরক্ষণ করলে রেকর্ড এই ব্রাউজারে থাকে। সবার জন্য দেখাতে হলে "সব রেকর্ড" ট্যাব থেকে <b>data.json</b> ডাউনলোড করে GitHub-এ আপলোড (replace) করুন।</p>
   </section>
 
-  <section class="card">
-    <h2>ফি সংক্রান্ত তথ্য</h2>
-    <table>
-      <tr><td>লাইসেন্স / নবায়ন ফি</td><td class="num">500.00</td></tr>
-      <tr><td>সাইনবোর্ড ফি</td><td class="num">0.00</td></tr>
-      <tr><td>বিবিধ ও আবেদন ফি</td><td class="num">0.00</td></tr>
-      <tr><td>বকেয়া</td><td class="num">0.00</td></tr>
-      <tr><td>চলতি সারচার্জ</td><td class="num">25.00</td></tr>
-      <tr><td>সারচার্জ</td><td class="num">0.00</td></tr>
-      <tr><td>ভ্যাট</td><td class="num">75.00</td></tr>
-      <tr><td>ভ্যাট বকেয়া</td><td class="num">0.00</td></tr>
-      <tr><td>আয়কর</td><td class="num">1,000.00</td></tr>
-      <tr><td>আয়কর বকেয়া</td><td class="num">0.00</td></tr>
-      <tr class="total"><td>মোট</td><td class="num">1,600.00</td></tr>
-    </table>
+  <!-- LIST -->
+  <section id="viewList" class="hidden">
+    <div class="row" style="margin:6px 0 12px">
+      <button class="primary" id="export">⬇ data.json ডাউনলোড</button>
+      <button id="importBtn">⬆ ফাইল থেকে ইমপোর্ট</button>
+      <input type="file" id="importFile" accept=".json,application/json" class="hidden">
+    </div>
+    <div id="list"></div>
   </section>
 
-  <footer>এটি ব্যক্তিগত রেকর্ডের জন্য তৈরি একটি অনানুষ্ঠানিক কপি। সরকারি যাচাইয়ের জন্য কর্তৃপক্ষের অফিসিয়াল পেজ ব্যবহার করুন।</footer>
+  <footer>এটি ব্যক্তিগত রেকর্ডের জন্য তৈরি অনানুষ্ঠানিক টুল। সরকারি যাচাইয়ের জন্য কর্তৃপক্ষের অফিসিয়াল সেবা ব্যবহার করুন।</footer>
 </div>
+
+<script>
+const FEES=[["licenseFee","লাইসেন্স / নবায়ন ফি"],["signboardFee","সাইনবোর্ড ফি"],["miscFee","বিবিধ ও আবেদন ফি"],["arrear","বকেয়া"],["currentSurcharge","চলতি সারচার্জ"],["surcharge","সারচার্জ"],["vat","ভ্যাট"],["vatArrear","ভ্যাট বকেয়া"],["incomeTax","আয়কর"],["incomeTaxArrear","আয়কর বকেয়া"]];
+const KEY="licenseRecords.local.v1";
+let base=[],local=[],editingNo=null;
+const $=s=>document.querySelector(s);
+
+/* helpers */
+const bn2en=s=>String(s||"").replace(/[০-৯]/g,d=>"০১২৩৪৫৬৭৮৯".indexOf(d));
+const norm=s=>bn2en(s).trim().toLowerCase().replace(/\s+/g,"");
+const digits=s=>norm(s).replace(/\D/g,"");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>(Number(n)||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtDate=d=>{if(!d)return"-";const p=d.split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d};
+const total=r=>FEES.reduce((s,[k])=>s+(Number(r.fees?.[k])||0),0);
+const keyOf=r=>digits(r.licenseNo)||norm(r.licenseNo);
+
+function merged(){
+  const map=new Map();
+  base.forEach(r=>map.set(keyOf(r),{...r,_src:"file"}));
+  local.forEach(r=>map.set(keyOf(r),{...r,_src:"local"}));
+  return [...map.values()];
+}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(local))}catch(e){}}
+function loadLocal(){try{local=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){local=[]}}
+
+/* load */
+async function init(){
+  loadLocal();
+  try{const r=await fetch("data.json?"+Date.now());base=await r.json()}catch(e){base=[]}
+  $("#feeInputs").innerHTML=FEES.map(([k,l])=>`<div><label>${l}</label><input type="number" step="0.01" min="0" name="fee_${k}" value="0"></div>`).join("");
+  renderList();
+}
+
+/* tabs */
+function show(t){
+  for(const n of["Search","Add","List"]){
+    $("#view"+n).classList.toggle("hidden",n!==t);
+    $("#tab"+n).classList.toggle("on",n===t);
+  }
+  if(t==="List")renderList();
+}
+$("#tabSearch").onclick=()=>show("Search");
+$("#tabAdd").onclick=()=>{resetForm();show("Add")};
+$("#tabList").onclick=()=>show("List");
+
+/* search */
+function expiryStatus(r){
+  if(!r.expiryDate)return"";
+  const ok=new Date(r.expiryDate+"T23:59:59")>=new Date();
+  return `<span class="status ${ok?"ok":"bad"}">${ok?"মেয়াদ বহাল":"মেয়াদ উত্তীর্ণ"}</span>`;
+}
+function recordHTML(r){
+  return `
+  <section class="card"><h2>লাইসেন্স তথ্য ${expiryStatus(r)}</h2><table>
+    <tr><td>লাইসেন্স নং</td><td>${esc(r.licenseNo)}</td></tr>
+    <tr><td>লাইসেন্স আইডি</td><td>${esc(r.licenseId||"-")}</td></tr>
+    <tr><td>ইস্যুর তারিখ</td><td>${fmtDate(r.issueDate)}</td></tr>
+    <tr><td>নবায়ন বছর</td><td>${esc(r.renewYear||"-")}</td></tr>
+    <tr><td>নবায়নের তারিখ</td><td>${fmtDate(r.renewDate)}</td></tr>
+    <tr><td>মেয়াদ শেষ</td><td>${fmtDate(r.expiryDate)}</td></tr></table></section>
+  <section class="card"><h2>প্রতিষ্ঠানের তথ্য</h2><table>
+    <tr><td>প্রতিষ্ঠানের নাম</td><td>${esc(r.businessName)}</td></tr>
+    <tr><td>ব্যবসার ধরন</td><td>${esc(r.businessType||"-")}</td></tr>
+    <tr><td>ওয়ার্ড</td><td>${esc(r.ward||"-")}</td></tr>
+    <tr><td>ঠিকানা</td><td>${esc(r.address||"-")}</td></tr></table></section>
+  <section class="card"><h2>ফি সংক্রান্ত তথ্য</h2><table>
+    ${FEES.map(([k,l])=>`<tr><td>${l}</td><td class="num">${money(r.fees?.[k])}</td></tr>`).join("")}
+    <tr class="total"><td>মোট</td><td class="num">${money(total(r))}</td></tr></table></section>`;
+}
+function search(){
+  const q=$("#q").value;
+  const out=$("#result");
+  if(!norm(q)){out.innerHTML="";return}
+  const qn=norm(q),qd=digits(q);
+  const hits=merged().filter(r=>keyOf(r)===qd||norm(r.licenseNo)===qn||norm(r.licenseId)===qn||(qd&&digits(r.licenseId)===qd));
+  out.innerHTML=hits.length?hits.map(recordHTML).join(""):`<div class="card"><p class="msg">"${esc(q)}" নম্বরে কোনো রেকর্ড পাওয়া যায়নি।</p></div>`;
+}
+$("#go").onclick=search;
+$("#q").addEventListener("keydown",e=>{if(e.key==="Enter")search()});
+
+/* form */
+function resetForm(){
+  editingNo=null;$("#form").reset();
+  FEES.forEach(([k])=>$(`[name=fee_${k}]`).value=0);
+  $("#formTitle").textContent="নতুন রেকর্ড যোগ করুন";
+}
+$("#cancelEdit").onclick=()=>{resetForm();show("List")};
+$("#form").onsubmit=e=>{
+  e.preventDefault();
+  const f=new FormData(e.target),r={fees:{}};
+  ["licenseNo","licenseId","businessName","businessType","ward","renewYear","issueDate","renewDate","expiryDate","address"].forEach(k=>r[k]=(f.get(k)||"").trim());
+  FEES.forEach(([k])=>r.fees[k]=Number(f.get("fee_"+k))||0);
+  const key=keyOf(r);
+  if(!key){alert("লাইসেন্স নম্বর দিন");return}
+  const exists=merged().some(x=>keyOf(x)===key);
+  if(exists&&editingNo!==key&&!confirm("এই নম্বরে রেকর্ড আছে। আপডেট করবেন?"))return;
+  local=local.filter(x=>keyOf(x)!==key);local.push(r);saveLocal();
+  resetForm();show("List");
+};
+function edit(key){
+  const r=merged().find(x=>keyOf(x)===key);if(!r)return;
+  editingNo=key;
+  for(const k of["licenseNo","licenseId","businessName","businessType","ward","renewYear","issueDate","renewDate","expiryDate","address"])$(`[name=${k}]`).value=r[k]||"";
+  FEES.forEach(([k])=>$(`[name=fee_${k}]`).value=r.fees?.[k]||0);
+  $("#formTitle").textContent="রেকর্ড সম্পাদনা";
+  show("Add");
+}
+function del(key){
+  if(!confirm("এই ব্রাউজার থেকে রেকর্ড মুছবেন?"))return;
+  local=local.filter(x=>keyOf(x)!==key);saveLocal();renderList();
+}
+
+/* list */
+function renderList(){
+  const all=merged();
+  $("#list").innerHTML=all.length?all.map(r=>{const k=keyOf(r);return `
+    <div class="card"><div class="pad">
+      <b>${esc(r.businessName)}</b> <span class="tag">${r._src==="local"?"(এই ব্রাউজারে সংরক্ষিত)":"(data.json)"}</span><br>
+      লাইসেন্স নং: ${esc(r.licenseNo)} · ${expiryStatus(r)}
+      <div class="row" style="margin-top:10px">
+        <button onclick="edit('${k}')">✏️ এডিট</button>
+        ${r._src==="local"?`<button class="danger" onclick="del('${k}')">🗑 মুছুন</button>`:""}
+      </div></div></div>`}).join(""):`<p class="msg">কোনো রেকর্ড নেই।</p>`;
+}
+
+/* export / import */
+$("#export").onclick=()=>{
+  const data=merged().map(({_src,...r})=>r);
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));
+  a.download="data.json";a.click();URL.revokeObjectURL(a.href);
+};
+$("#importBtn").onclick=()=>$("#importFile").click();
+$("#importFile").onchange=async e=>{
+  try{
+    const arr=JSON.parse(await e.target.files[0].text());
+    if(!Array.isArray(arr))throw 0;
+    arr.forEach(r=>{if(keyOf(r)){local=local.filter(x=>keyOf(x)!==keyOf(r));local.push(r)}});
+    saveLocal();renderList();
+  }catch(err){alert("ফাইলটি সঠিক data.json নয়")}
+  e.target.value="";
+};
+
+init();
+</script>
 </body>
 </html>
