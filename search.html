@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>সার্চ</title>
+<link rel="stylesheet" href="style.css">
+<script src="auth.js"></script>
+<script>guard()</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a href="index.html"><button type="button">← মেনু</button></a><button type="button" onclick="logout()">🚪 লগআউট</button></div>
+  <header><h1>🔍 সার্চ</h1></header>
+  <div class="card"><div class="pad">
+    <label for="q">লাইসেন্স নম্বর বা লাইসেন্স আইডি</label>
+    <div class="row">
+      <input id="q" inputmode="numeric" placeholder="যেমন: 007640 বা 03-023-007640" autocomplete="off">
+      <button class="primary" id="go" style="flex:0 0 90px">খুঁজুন</button>
+    </div>
+  </div></div>
+  <p class="msg">ফলাফল আলাদা পেজে খুলবে, যে লিংক সবাই দেখতে পারে।</p>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const bn2en=s=>String(s||"").replace(/[০-৯]/g,d=>"০১২৩৪৫৬৭৮৯".indexOf(d));
+function search(){
+  const q=$("#q").value.trim();
+  if(!bn2en(q).trim())return;
+  location.href="result.html?no="+encodeURIComponent(q);
+}
+$("#go").onclick=search;
+$("#q").addEventListener("keydown",e=>{if(e.key==="Enter")search()});
+</script>
+</body>
+</html>

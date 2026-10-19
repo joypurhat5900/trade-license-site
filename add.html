@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>নতুন যোগ</title>
+<link rel="stylesheet" href="style.css">
+<script src="auth.js"></script>
+<script>guard()</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a href="index.html"><button type="button">← মেনু</button></a><button type="button" onclick="logout()">🚪 লগআউট</button></div>
+  <form id="form" class="card" autocomplete="off">
+    <h2 id="formTitle">নতুন রেকর্ড যোগ করুন</h2>
+    <div class="pad">
+      <div class="grid">
+        <div><label>লাইসেন্স নং *</label><input name="licenseNo" required></div>
+        <div><label>লাইসেন্স আইডি</label><input name="licenseId"></div>
+        <div><label>প্রতিষ্ঠানের নাম *</label><input name="businessName" required></div>
+        <div><label>ব্যবসার ধরন</label><input name="businessType"></div>
+        <div><label>ওয়ার্ড</label><input name="ward"></div>
+        <div><label>নবায়ন বছর</label><input name="renewYear" placeholder="2026-2027"></div>
+        <div><label>ইস্যুর তারিখ</label><input type="date" name="issueDate"></div>
+        <div><label>নবায়নের তারিখ</label><input type="date" name="renewDate"></div>
+        <div><label>মেয়াদ শেষ</label><input type="date" name="expiryDate"></div>
+        <div><label>ঠিকানা</label><input name="address"></div>
+      </div>
+      <label style="margin-top:16px;font-weight:700;color:var(--text)">ফি (টাকা)</label>
+      <div class="grid" id="feeInputs"></div>
+      <div class="row" style="margin-top:16px">
+        <button type="submit" class="primary">সংরক্ষণ করুন</button>
+        <a href="records.html" style="text-decoration:none;display:block"><button type="button" style="width:100%">বাতিল</button></a>
+      </div>
+    </div>
+  </form>
+  <p class="msg">সংরক্ষণ করলে রেকর্ড এই ব্রাউজারে থাকে। সবার জন্য দেখাতে হলে "সব রেকর্ড" পেজ থেকে <b>data.json</b> ডাউনলোড করে GitHub-এ আপলোড (replace) করুন।</p>
+</div>
+<script src="app.js"></script>
+<script>
+const FIELDS=["licenseNo","licenseId","businessName","businessType","ward","renewYear","issueDate","renewDate","expiryDate","address"];
+let editKey=new URLSearchParams(location.search).get("edit");
+(async()=>{
+  await loadBase();
+  $("#feeInputs").innerHTML=FEES.map(([k,l])=>`<div><label>${l}</label><input type="number" step="0.01" min="0" name="fee_${k}" value="0"></div>`).join("");
+  if(editKey){
+    const r=merged().find(x=>keyOf(x)===editKey);
+    if(r){
+      FIELDS.forEach(k=>$(`[name=${k}]`).value=r[k]||"");
+      FEES.forEach(([k])=>$(`[name=fee_${k}]`).value=r.fees?.[k]||0);
+      $("#formTitle").textContent="রেকর্ড সম্পাদনা";
+    }else editKey=null;
+  }
+})();
+$("#form").onsubmit=e=>{
+  e.preventDefault();
+  const f=new FormData(e.target),r={fees:{}};
+  FIELDS.forEach(k=>r[k]=(f.get(k)||"").trim());
+  FEES.forEach(([k])=>r.fees[k]=Number(f.get("fee_"+k))||0);
+  const key=keyOf(r);
+  if(!key){alert("লাইসেন্স নম্বর দিন");return}
+  const exists=merged().some(x=>keyOf(x)===key);
+  if(exists&&editKey!==key&&!confirm("এই নম্বরে রেকর্ড আছে। আপডেট করবেন?"))return;
+  local=local.filter(x=>keyOf(x)!==key);local.push(r);saveLocal();
+  location.href="records.html";
+};
+</script>
+</body>
+</html>

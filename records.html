@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>সব রেকর্ড</title>
+<link rel="stylesheet" href="style.css">
+<script src="auth.js"></script>
+<script>guard()</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a href="index.html"><button type="button">← মেনু</button></a><button type="button" onclick="logout()">🚪 লগআউট</button></div>
+  <header><h1>📋 সব রেকর্ড</h1></header>
+  <div class="row" style="margin:6px 0 12px">
+    <button class="primary" id="export">⬇ data.json ডাউনলোড</button>
+    <button id="importBtn">⬆ ফাইল থেকে ইমপোর্ট</button>
+    <input type="file" id="importFile" accept=".json,application/json" class="hidden">
+  </div>
+  <a href="add.html" style="text-decoration:none"><button type="button" style="width:100%;margin-bottom:8px">➕ নতুন যোগ</button></a>
+  <div id="list"></div>
+</div>
+<script src="app.js"></script>
+<script>
+function renderList(){
+  const all=merged();
+  $("#list").innerHTML=all.length?all.map(r=>{const k=keyOf(r);return `
+    <div class="card"><div class="pad">
+      <b>${esc(r.businessName)}</b> <span class="tag">${r._src==="local"?"(এই ব্রাউজারে সংরক্ষিত)":"(data.json)"}</span><br>
+      লাইসেন্স নং: ${esc(r.licenseNo)} · ${expiryStatus(r)}
+      <div class="row" style="margin-top:10px">
+        <a href="result.html?no=${encodeURIComponent(r.licenseNo)}" style="text-decoration:none"><button style="width:100%">👁 দেখুন</button></a>
+        <a href="add.html?edit=${k}" style="text-decoration:none"><button style="width:100%">✏️ এডিট</button></a>
+        ${r._src==="local"?`<button class="danger" onclick="del('${k}')">🗑 মুছুন</button>`:""}
+      </div></div></div>`}).join(""):`<p class="msg">কোনো রেকর্ড নেই।</p>`;
+}
+function del(key){
+  if(!confirm("এই ব্রাউজার থেকে রেকর্ড মুছবেন?"))return;
+  local=local.filter(x=>keyOf(x)!==key);saveLocal();renderList();
+}
+$("#export").onclick=()=>{
+  const data=merged().map(({_src,...r})=>r);
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));
+  a.download="data.json";a.click();URL.revokeObjectURL(a.href);
+};
+$("#importBtn").onclick=()=>$("#importFile").click();
+$("#importFile").onchange=async e=>{
+  try{
+    const arr=JSON.parse(await e.target.files[0].text());
+    if(!Array.isArray(arr))throw 0;
+    arr.forEach(r=>{if(keyOf(r)){local=local.filter(x=>keyOf(x)!==keyOf(r));local.push(r)}});
+    saveLocal();renderList();
+  }catch(err){alert("ফাইলটি সঠিক data.json নয়")}
+  e.target.value="";
+};
+(async()=>{await loadBase();renderList()})();
+</script>
+</body>
+</html>

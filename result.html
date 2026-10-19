@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>লাইসেন্স তথ্য</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ট্রেড লাইসেন্স তথ্য</h1>
+    <span class="note">অনানুষ্ঠানিক রেকর্ড — সরকারি যাচাইকরণ নয়</span>
+  </header>
+  <div class="row" style="margin:14px 0">
+    <a href="index.html" style="text-decoration:none;flex:0 0 auto"><button type="button">← নতুন সার্চ</button></a>
+  </div>
+  <div id="result"><p class="msg">লোড হচ্ছে...</p></div>
+  <footer>এটি ব্যক্তিগত রেকর্ডের জন্য তৈরি অনানুষ্ঠানিক টুল। সরকারি যাচাইয়ের জন্য কর্তৃপক্ষের অফিসিয়াল সেবা ব্যবহার করুন।</footer>
+</div>
+<script src="app.js"></script>
+<script>
+(async()=>{
+  const q=new URLSearchParams(location.search).get("no")||"";
+  await loadBase();
+  const hits=q?findRecord(q):[];
+  if(hits.length)document.title="লাইসেন্স "+hits[0].licenseNo;
+  $("#result").innerHTML=hits.length?hits.map(recordHTML).join(""):`<div class="card"><p class="msg">"${esc(q)}" নম্বরে কোনো রেকর্ড পাওয়া যায়নি।</p></div>`;
+})();
+</script>
+</body>
+</html>
