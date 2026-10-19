@@ -1,72 +1,76 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ট্রেড লাইসেন্স তথ্য</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f2f5f8;color:#263746;font-family:Arial,sans-serif}
-header{background:#164c70;color:white;text-align:center;padding:24px 12px}
-main{max-width:760px;margin:24px auto;padding:0 14px}
-.card{background:white;border-radius:8px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px #0001}
-input,button{width:100%;padding:12px;margin-top:10px;box-sizing:border-box;font-size:16px;border-radius:5px}
-input{border:1px solid #bbc7d3}button{border:0;background:#176b49;color:white;cursor:pointer}
-table{width:100%;border-collapse:collapse}td{padding:12px 7px;border-bottom:1px solid #ddd;overflow-wrap:anywhere;vertical-align:top}
-td:first-child{font-weight:bold;width:40%}.notice{font-size:13px;color:#71551a;background:#fff4d6;padding:12px;border-radius:5px;line-height:1.6}
-footer{text-align:center;padding:18px;color:#64748b;font-size:13px}
+  :root{--bg:#f4f7fa;--card:#fff;--text:#1d2733;--muted:#5d6b7a;--line:#e1e8ef;--head:#e6f1f7;--accent:#0b6b8a;color-scheme:light}
+  @media (prefers-color-scheme:dark){:root{--bg:#10161c;--card:#18212a;--text:#e8eef3;--muted:#9aa9b8;--line:#2a3541;--head:#1f3140;--accent:#5cc0e0;color-scheme:dark}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans Bengali","Kalpurush","SolaimanLipi",system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:16px}
+  header{text-align:center;padding:12px 0 4px}
+  h1{font-size:1.35rem;margin:0 0 4px;color:var(--accent)}
+  .note{display:inline-block;font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:2px 12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:16px 0;overflow:hidden}
+  .card h2{margin:0;padding:10px 14px;font-size:1rem;background:var(--head);text-align:center}
+  table{width:100%;border-collapse:collapse}
+  td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+  td:first-child{color:var(--muted);width:42%}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.total td{font-weight:700;background:var(--head)}
+  footer{text-align:center;font-size:.78rem;color:var(--muted);padding:8px 0 24px}
 </style>
 </head>
 <body>
-<header><h2>ট্রেড লাইসেন্সের তথ্য</h2><p>লাইসেন্স ID দিয়ে অনুসন্ধান করুন</p></header>
-<main>
-<div class="card">
-<div class="notice">এটি একটি স্বাধীন তথ্য প্রদর্শনের ওয়েবসাইট; সরকারি যাচাইকরণ সাইট নয়।</div>
-<form id="search"><label for="id">লাইসেন্স ID</label><input id="id" required placeholder="যেমন 1001"><button type="submit">তথ্য দেখুন</button></form>
+<div class="wrap">
+  <header>
+    <h1>ট্রেড লাইসেন্স তথ্য</h1>
+    <span class="note">অনানুষ্ঠানিক কপি — সরকারি যাচাইকরণ পেজ নয়</span>
+  </header>
+
+  <section class="card">
+    <h2>লাইসেন্স তথ্য</h2>
+    <table>
+      <tr><td>লাইসেন্স নং</td><td>007640</td></tr>
+      <tr><td>লাইসেন্স আইডি</td><td>03-023-007640</td></tr>
+      <tr><td>ইস্যুর তারিখ</td><td>06/07/2023</td></tr>
+      <tr><td>নবায়ন বছর</td><td>2026-2027</td></tr>
+      <tr><td>নবায়নের তারিখ</td><td>17/10/2026</td></tr>
+      <tr><td>মেয়াদ শেষ</td><td>30/06/2027</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>প্রতিষ্ঠানের তথ্য</h2>
+    <table>
+      <tr><td>প্রতিষ্ঠানের নাম</td><td>কিবরিয়া ভ্যারাইটি স্টোর</td></tr>
+      <tr><td>ব্যবসার ধরন</td><td>ভ্যারাইটি স্টোর ছোট</td></tr>
+      <tr><td>ওয়ার্ড</td><td>০৩</td></tr>
+      <tr><td>মহল্লা / রাস্তা</td><td>খনজনপুর রোড</td></tr>
+      <tr><td>ঠিকানা</td><td>হোল্ডিং নং: ০০৩, পিডিবির সামনে, খনজনপুর রোড</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>ফি সংক্রান্ত তথ্য</h2>
+    <table>
+      <tr><td>লাইসেন্স / নবায়ন ফি</td><td class="num">500.00</td></tr>
+      <tr><td>সাইনবোর্ড ফি</td><td class="num">0.00</td></tr>
+      <tr><td>বিবিধ ও আবেদন ফি</td><td class="num">0.00</td></tr>
+      <tr><td>বকেয়া</td><td class="num">0.00</td></tr>
+      <tr><td>চলতি সারচার্জ</td><td class="num">25.00</td></tr>
+      <tr><td>সারচার্জ</td><td class="num">0.00</td></tr>
+      <tr><td>ভ্যাট</td><td class="num">75.00</td></tr>
+      <tr><td>ভ্যাট বকেয়া</td><td class="num">0.00</td></tr>
+      <tr><td>আয়কর</td><td class="num">1,000.00</td></tr>
+      <tr><td>আয়কর বকেয়া</td><td class="num">0.00</td></tr>
+      <tr class="total"><td>মোট</td><td class="num">1,600.00</td></tr>
+    </table>
+  </section>
+
+  <footer>এটি ব্যক্তিগত রেকর্ডের জন্য তৈরি একটি অনানুষ্ঠানিক কপি। সরকারি যাচাইয়ের জন্য কর্তৃপক্ষের অফিসিয়াল পেজ ব্যবহার করুন।</footer>
 </div>
-<div class="card" id="result" hidden><h3>লাইসেন্সের বিবরণ</h3><table><tbody id="details"></tbody></table></div>
-<div class="card" id="message">লাইসেন্স ID লিখে অনুসন্ধান করুন।</div>
-</main>
-<footer>স্বাধীন তথ্য প্রদর্শন সেবা</footer>
-<script>
-let records = new Map();
-function parseCSV(text) {
-  const rows=[]; let row=[], cell="", quoted=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(c==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++;}else quoted=!quoted;}
-    else if(c===","&&!quoted){row.push(cell);cell="";}
-    else if((c==="\n"||c==="\r")&&!quoted){if(c==="\r"&&text[i+1]==="\n")i++;row.push(cell);if(row.some(v=>v.trim()!==""))rows.push(row);row=[];cell="";}
-    else cell+=c;
-  }
-  if(cell.length||row.length){row.push(cell);rows.push(row);}
-  if(!rows.length)return [];
-  const headers=rows.shift().map((h,i)=>(i===0?h.replace(/^\uFEFF/,""):h).trim());
-  return rows.map(r=>{const obj={};headers.forEach((h,i)=>obj[h]=(r[i]||"").trim());return obj;});
-}
-async function loadData(){
-  const response=await fetch("./licenses.csv");
-  if(!response.ok)throw Error("CSV ফাইল পাওয়া যায়নি");
-  const items=parseCSV(await response.text());
-  for(const item of items){if(item.ID)records.set(item.ID,item);}
-}
-function showLicense(id){
-  const item=records.get(id.trim());const result=document.getElementById("result");
-  const message=document.getElementById("message");const details=document.getElementById("details");
-  details.replaceChildren();
-  if(!item){result.hidden=true;message.hidden=false;message.textContent="এই ID-এর কোনো তথ্য পাওয়া যায়নি।";return;}
-  Object.entries(item).forEach(([key,value])=>{const tr=document.createElement("tr");const a=document.createElement("td");const b=document.createElement("td");a.textContent=key;b.textContent=value;tr.append(a,b);details.append(tr);});
-  result.hidden=false;message.hidden=true;
-}
-document.getElementById("search").addEventListener("submit",e=>{
-  e.preventDefault();const id=document.getElementById("id").value.trim();showLicense(id);
-  const url=new URL(location.href);url.searchParams.set("id",id);history.replaceState(null,"",url);
-});
-loadData().then(()=>{
-  const id=new URLSearchParams(location.search).get("id");
-  if(id){document.getElementById("id").value=id;showLicense(id);}
-}).catch(()=>{
-  document.getElementById("message").textContent="তথ্য লোড হয়নি। licenses.csv ফাইলটি আপলোড করা আছে কি না দেখুন।";
-});
-</script>
 </body>
 </html>
