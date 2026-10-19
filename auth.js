@@ -1,7 +1,6 @@
 /* লগইন সেটিং — পাসওয়ার্ড বদলাতে make-password.html খুলে নতুন লাইন বসান */
 const AUTH_SALT="lic-v1";
 const AUTH_HASH="9679fb2c2a5a199f4a6d056f1cf7dd95f0c0764d23fee9c693f1b64e2923dc84";
-async function sha256(s){
   const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));
   return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
 }
