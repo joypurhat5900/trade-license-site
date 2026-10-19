@@ -32,6 +32,14 @@ function findRecord(q){
   const qn=norm(q),qd=digits(q);
   return merged().filter(r=>keyOf(r)===qd||norm(r.licenseNo)===qn||norm(r.licenseId)===qn||(qd&&digits(r.licenseId)===qd));
 }
+/* কোন তথ্য সবাই (লগইন ছাড়া) দেখতে পাবে — false মানে শুধু লগইন করা ব্যক্তি দেখবে */
+const PUBLIC_SHOW={ownerName:true,fatherName:false,motherName:false,spouseName:false,nid:false,mobile:false};
+const OWNER_FIELDS=[["ownerName","মালিকের নাম"],["fatherName","পিতার নাম"],["motherName","মাতার নাম"],["spouseName","স্বামী / স্ত্রীর নাম"],["nid","জাতীয় পরিচয়পত্র নং"],["mobile","মোবাইল নম্বর"]];
+const _loggedIn=()=>sessionStorage.getItem("licAuth")==="1";
+function ownerHTML(r){
+  const rows=OWNER_FIELDS.filter(([k])=>_loggedIn()||PUBLIC_SHOW[k]).map(([k,l])=>`<tr><td>${l}</td><td>${esc(r[k]||"-")}</td></tr>`).join("");
+  return rows?`<section class="card"><h2>মালিকের তথ্য</h2><table>${rows}</table></section>`:"";
+}
 /* search */
 function expiryStatus(r){
   if(!r.expiryDate)return"";
@@ -52,6 +60,7 @@ function recordHTML(r){
     <tr><td>ব্যবসার ধরন</td><td>${esc(r.businessType||"-")}</td></tr>
     <tr><td>ওয়ার্ড</td><td>${esc(r.ward||"-")}</td></tr>
     <tr><td>ঠিকানা</td><td>${esc(r.address||"-")}</td></tr></table></section>
+  ${ownerHTML(r)}
   <section class="card"><h2>ফি সংক্রান্ত তথ্য</h2><table>
     ${FEES.map(([k,l])=>`<tr><td>${l}</td><td class="num">${money(r.fees?.[k])}</td></tr>`).join("")}
     <tr class="total"><td>মোট</td><td class="num">${money(total(r))}</td></tr></table></section>`;

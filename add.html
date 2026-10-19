@@ -26,6 +26,15 @@
         <div><label>মেয়াদ শেষ</label><input type="date" name="expiryDate"></div>
         <div><label>ঠিকানা</label><input name="address"></div>
       </div>
+      <label style="margin-top:16px;font-weight:700;color:var(--text)">মালিকের তথ্য</label>
+      <div class="grid">
+        <div><label>মালিকের নাম</label><input name="ownerName"></div>
+        <div><label>পিতার নাম</label><input name="fatherName"></div>
+        <div><label>মাতার নাম</label><input name="motherName"></div>
+        <div><label>স্বামী / স্ত্রীর নাম</label><input name="spouseName"></div>
+        <div><label>জাতীয় পরিচয়পত্র নং</label><input name="nid" inputmode="numeric"></div>
+        <div><label>মোবাইল নম্বর</label><input name="mobile" inputmode="tel"></div>
+      </div>
       <label style="margin-top:16px;font-weight:700;color:var(--text)">ফি (টাকা)</label>
       <div class="grid" id="feeInputs"></div>
       <div class="row" style="margin-top:16px">
@@ -38,7 +47,7 @@
 </div>
 <script src="app.js"></script>
 <script>
-const FIELDS=["licenseNo","licenseId","businessName","businessType","ward","renewYear","issueDate","renewDate","expiryDate","address"];
+const FIELDS=["licenseNo","licenseId","businessName","businessType","ward","renewYear","issueDate","renewDate","expiryDate","address","ownerName","fatherName","motherName","spouseName","nid","mobile"];
 let editKey=new URLSearchParams(location.search).get("edit");
 (async()=>{
   await loadBase();
