@@ -33,7 +33,7 @@ function findRecord(q){
   return merged().filter(r=>keyOf(r)===qd||norm(r.licenseNo)===qn||norm(r.licenseId)===qn||(qd&&digits(r.licenseId)===qd));
 }
 /* কোন তথ্য সবাই (লগইন ছাড়া) দেখতে পাবে — false মানে শুধু লগইন করা ব্যক্তি দেখবে */
-const PUBLIC_SHOW={ownerName:true,fatherName:false,motherName:false,spouseName:false,nid:false,mobile:false};
+const PUBLIC_SHOW={ownerName:true,fatherName:true,motherName:true,spouseName:true,nid:true,mobile:true};
 const OWNER_FIELDS=[["ownerName","মালিকের নাম"],["fatherName","পিতার নাম"],["motherName","মাতার নাম"],["spouseName","স্বামী / স্ত্রীর নাম"],["nid","জাতীয় পরিচয়পত্র নং"],["mobile","মোবাইল নম্বর"]];
 const _loggedIn=()=>sessionStorage.getItem("licAuth")==="1";
 function ownerHTML(r){
